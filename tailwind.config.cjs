@@ -3,7 +3,13 @@ const path = require('path');
 
 module.exports = {
   darkMode: 'class',
-  content: [path.join(__dirname, 'src/**/*.{js,jsx,ts,tsx}')],
+  content: [
+    // For Storybook/dev: scan source files
+    path.join(__dirname, 'src/**/*.{js,jsx,ts,tsx}'),
+    // For consumers: when installed, __dirname resolves to dist/, so index.js/cjs are found
+    path.join(__dirname, 'index.js'),
+    path.join(__dirname, 'index.cjs'),
+  ],
   theme: {
     extend: {
       colors: {
