@@ -17,6 +17,9 @@ export type { SearchComponentProps } from './components/SearchComponent/SearchCo
 export { ThemeToggle } from './components/ThemeToggle/ThemeToggle';
 export type { ThemeToggleProps } from './components/ThemeToggle/ThemeToggle';
 
+export { LanguageSwitcher } from './components/LanguageSwitcher/LanguageSwitcher';
+export type { LanguageSwitcherProps } from './components/LanguageSwitcher/LanguageSwitcher';
+
 // Types
 export type { RichTextNode } from './types/RichTextNode';
 export type { SearchResults, SearchResultsResponse } from './types/SearchResults';
