@@ -23,3 +23,4 @@ export type { LanguageSwitcherProps } from './components/LanguageSwitcher/Langua
 // Types
 export type { RichTextNode } from './types/RichTextNode';
 export type { SearchResults, SearchResultsResponse } from './types/SearchResults';
+export type { FooterMenu, FooterMenuRaw, FooterMenuItem } from './types/FooterMenu';
