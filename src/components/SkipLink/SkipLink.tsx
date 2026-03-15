@@ -22,9 +22,9 @@ export interface SkipLinkProps {
  */
 export function SkipLink({ href, id, label, forceVisible = false }: SkipLinkProps) {
   const base =
-    'text-xl p-4 text-black bg-lt-blue-light dark:bg-dk-purple dark:text-white ' +
+    'text-xl text-black bg-lt-blue-light dark:bg-dk-purple dark:text-white dark:text-shadow-text ' +
     'hover:text-lt-purple dark:hover:text-dk-blue-light hover:underline hover:decoration-2 hover:underline-offset-2 ' +
-    'focus:outline focus:outline-2 focus:outline-black dark:focus:outline-white';
+    'focus:p-4 focus:outline focus:outline-2 focus:outline-black dark:focus:outline-white';
 
   const visibilityClasses = forceVisible
     ? 'absolute top-8 left-8'

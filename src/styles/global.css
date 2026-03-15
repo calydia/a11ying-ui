@@ -10,6 +10,10 @@
   --gradient-brand: linear-gradient(to right, #46037e 0%, RoyalBlue 50%, #46037e 100%);
 }
 
+.text-shadow-text {
+  text-shadow: rgb(0 0 0 / 46%) 4px 4px 6px;
+}
+
 /* ─── Base typography ─────────────────────────────────────────────────────── */
 
 p {
