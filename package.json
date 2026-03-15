@@ -4,6 +4,7 @@
   "description": "Shared design system for A11ying brand sites",
   "type": "module",
   "exports": {
+    ".": "./src/index.ts",
     "./tailwind": "./tailwind.config.cjs",
     "./styles": "./src/styles/global.css"
   },
