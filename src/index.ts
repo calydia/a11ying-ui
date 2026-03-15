@@ -14,6 +14,9 @@ export type { RichTextProps } from './components/RichText/RichText';
 export { SearchComponent } from './components/SearchComponent/SearchComponent';
 export type { SearchComponentProps } from './components/SearchComponent/SearchComponent';
 
+export { ThemeToggle } from './components/ThemeToggle/ThemeToggle';
+export type { ThemeToggleProps } from './components/ThemeToggle/ThemeToggle';
+
 // Types
 export type { RichTextNode } from './types/RichTextNode';
 export type { SearchResults, SearchResultsResponse } from './types/SearchResults';
