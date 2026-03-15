@@ -3,12 +3,20 @@
   "version": "1.0.0",
   "description": "Shared design system for A11ying brand sites",
   "type": "module",
+  "files": [
+    "dist"
+  ],
   "exports": {
-    ".": "./src/index.ts",
-    "./tailwind": "./tailwind.config.cjs",
-    "./styles": "./src/styles/global.css"
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./tailwind": "./dist/tailwind.config.cjs",
+    "./styles": "./dist/global.css"
   },
   "scripts": {
+    "build": "vite build --config vite.config.build.ts",
+    "prepare": "npm run build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },

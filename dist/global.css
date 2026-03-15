@@ -1,0 +1,168 @@
+@import '@fontsource/atkinson-hyperlegible';
+@import '@fontsource/lato';
+@import '@fontsource/satisfy';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gradient-brand: linear-gradient(to right, #46037e 0%, RoyalBlue 50%, #46037e 100%);
+}
+
+.text-shadow-text {
+  text-shadow: rgb(0 0 0 / 46%) 4px 4px 6px;
+}
+
+/* ─── Base typography ─────────────────────────────────────────────────────── */
+
+p {
+  @apply text-lg md:text-xl mb-8 leading-relaxed md:leading-relaxed font-light;
+}
+
+h1 {
+  @apply first-letter:capitalize text-3xl font-bold font-heading mt-4 mb-4 lg:mb-8 lg:text-4xl relative;
+}
+h2 {
+  @apply mb-4 text-2xl lg:text-3xl font-bold mt-12 font-heading relative;
+}
+h3 {
+  @apply mb-4 text-xl lg:text-2xl font-bold mt-12 font-heading relative;
+}
+h4 {
+  @apply mb-4 text-lg lg:text-xl font-bold mt-12 font-heading relative;
+}
+
+h1, h2, h3, h4 {
+  @apply text-lt-gray-heading dark:text-dk-gray-heading;
+}
+
+/* Decorative highlight mark behind headings */
+h1::before,
+h2::before,
+h3::before,
+h4::before {
+  content: '';
+  @apply bg-lt-perfume dark:bg-dk-purple-header absolute block z-[-1] bottom-0 w-10 h-2.5;
+}
+
+strong {
+  @apply font-bold;
+}
+
+/* ─── Links ───────────────────────────────────────────────────────────────── */
+
+a {
+  @apply text-lt-blue-dark dark:text-dk-blue-light;
+  @apply hover:underline hover:underline-offset-4 hover:text-lt-purple hover:decoration-2 dark:hover:text-wheat;
+  @apply focus:text-lt-purple dark:focus:text-wheat focus:outline-2 focus:outline-offset-2 focus:no-underline focus:outline-lt-purple dark:focus:outline-wheat;
+}
+
+a[aria-current="page"],
+.active-link {
+  @apply underline decoration-2 underline-offset-4 text-lt-purple dark:text-wheat;
+  @apply hover:decoration-4;
+}
+
+/* ─── Interactive components ──────────────────────────────────────────────── */
+
+.button {
+  @apply bg-lt-blue-dark text-white border-4 border-transparent dark:bg-dk-blue-light dark:text-black py-3 px-5;
+  @apply hover:border-4 hover:border-lt-blue-dark hover:bg-transparent hover:text-lt-blue-dark dark:hover:text-dk-blue-light dark:hover:border-dk-blue-light;
+  @apply focus:outline focus:outline-2 focus:outline-offset-4 focus:outline-black dark:focus:outline-white;
+}
+
+.button--alternative {
+  @apply text-lt-blue-dark dark:text-dk-blue-light py-2 px-3;
+}
+
+.item--transition {
+  @apply transition-colors ease-in-out duration-300;
+  @apply hover:transition-colors hover:ease-in-out hover:duration-300;
+}
+
+.hover--border {
+  @apply border-y-4 border-transparent;
+  @apply hover:border-y-4 hover:border-lt-purple dark:hover:border-dk-blue-light;
+  @apply focus:outline focus:outline-2 focus:outline-offset-4 focus:outline-black dark:focus:outline-white;
+}
+
+/* ─── Content boxes ───────────────────────────────────────────────────────── */
+
+.toc-box {
+  @apply bg-white dark:bg-dk-blue-darkest my-12 border-solid border-l-8 border-t-2 border-b-2 border-r-2 rounded-3xl border-lt-code-border dark:border-dk-code-border p-8;
+}
+
+.light .toc-box {
+  @apply shadow-2xl;
+}
+
+.toc-box li {
+  @apply my-4;
+}
+
+.toc-box li li {
+  @apply mx-2;
+}
+
+.toc-box a {
+  @apply no-underline hover:underline;
+}
+
+blockquote {
+  @apply relative bg-slate-300 dark:bg-slate-900 my-12 p-6 border-solid border-l-8 border-l-lt-purple dark:border-l-dk-blue-light;
+}
+
+.notice-box {
+  @apply flex items-center flex-nowrap my-6 shadow-lg rounded-lg dark:shadow-none py-4 pr-4;
+  @apply bg-gradient-to-r from-lt-code-bg to-lt-blue-light;
+  @apply dark:from-dk-code-bg dark:to-dk-blue-darkest;
+  @apply border border-black dark:border-white;
+}
+
+.notice-box p {
+  @apply m-0;
+}
+
+/* ─── Code ────────────────────────────────────────────────────────────────── */
+
+code {
+  @apply text-base border-solid border py-0.5 px-1 mx-0.5 inline-block bg-lt-code-bg border-lt-code-border dark:bg-dk-code-bg dark:border-dk-code-border shadow-lg;
+}
+
+/* ─── Gradient border utility ─────────────────────────────────────────────── */
+
+.gradient-border {
+  border-image: var(--gradient-brand);
+  border-image-slice: 1;
+}
+
+/* ─── Menu state helpers ──────────────────────────────────────────────────── */
+
+.menu-button[aria-expanded="false"] + ul {
+  @apply hidden invisible;
+}
+
+.menu-button[aria-expanded="true"] .menu-button--icon {
+  @apply rotate-180;
+}
+
+.menu-toggle[aria-expanded="false"] + ul {
+  @apply max-lg:hidden max-lg:invisible;
+}
+
+.mobile-menu-toggle[aria-expanded="false"] .icon--minus {
+  @apply hidden invisible;
+}
+
+.mobile-menu-toggle[aria-expanded="true"] .icon--plus {
+  @apply hidden invisible;
+}
+
+.mobile-menu-toggle[aria-expanded="false"] + ul {
+  @apply hidden invisible;
+}
+
+.lang-switcher[aria-expanded="false"] + ul {
+  @apply hidden invisible;
+}
