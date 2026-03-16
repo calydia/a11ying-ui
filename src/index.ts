@@ -20,7 +20,17 @@ export type { ThemeToggleProps } from './components/ThemeToggle/ThemeToggle';
 export { LanguageSwitcher } from './components/LanguageSwitcher/LanguageSwitcher';
 export type { LanguageSwitcherProps } from './components/LanguageSwitcher/LanguageSwitcher';
 
+export { MainImage } from './components/MainImage/MainImage';
+
+export { SearchBlock } from './components/SearchBlock/SearchBlock';
+export type { SearchBlockProps } from './components/SearchBlock/SearchBlock';
+
+export { Breadcrumb } from './components/Breadcrumb/Breadcrumb';
+export type { BreadcrumbProps } from './components/Breadcrumb/Breadcrumb';
+
 // Types
 export type { RichTextNode } from './types/RichTextNode';
 export type { SearchResults, SearchResultsResponse } from './types/SearchResults';
 export type { FooterMenu, FooterMenuRaw, FooterMenuItem } from './types/FooterMenu';
+export type { BreadcrumbItem } from './types/BreadcrumbItem';
+export type { MainMenu, MainMenuItem } from './types/MainMenu';

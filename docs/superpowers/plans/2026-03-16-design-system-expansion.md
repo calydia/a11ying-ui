@@ -631,11 +631,10 @@ This wrapper retains all CMS-fetching and URL-parsing logic but assembles a `Bre
 
   ```bash
   git add -A
-  git commit -m "Migrate MainMenu types and Breadcrumb to a11ying-ui v1.6.0
+  git commit -m "Migrate MainMenu/MainMenuItem types to a11ying-ui v1.6.0
 
   - MainMenu/MainMenuItem now imported from a11ying-ui
   - menuInterfaces.ts deleted (was empty after migration)
-  - Breadcrumb.astro rewritten as data-assembly wrapper
 
   Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
   ```
@@ -877,11 +876,10 @@ wcag-front has two breadcrumb variants: `Breadcrumb.astro` (WCAG hierarchy with 
 
   ```bash
   git add -A
-  git commit -m "Migrate MainMenu types and Breadcrumb to a11ying-ui v1.6.0
+  git commit -m "Migrate MainMenu/MainMenuItem types to a11ying-ui v1.6.0
 
   - MainMenu/MainMenuItem now imported from a11ying-ui
   - menuInterfaces.ts deleted (was empty after migration)
-  - Breadcrumb.astro and BreadcrumbForPages.astro rewritten as data-assembly wrappers
 
   Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
   ```
