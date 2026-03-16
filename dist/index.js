@@ -249,7 +249,7 @@ function ee({
     ] })
   ] });
 }
-const R = () => /* @__PURE__ */ t("svg", { xmlns: "http://www.w3.org/2000/svg", width: "1em", height: "1em", viewBox: "0 0 24 24", className: "h-8 w-8", "aria-hidden": "true", children: /* @__PURE__ */ t("path", { fill: "currentColor", fillRule: "evenodd", d: "M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9a8.97 8.97 0 0 0 3.463-.69a.75.75 0 0 1 .981.98a10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5c0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z", clipRule: "evenodd" }) }), O = () => /* @__PURE__ */ t("svg", { xmlns: "http://www.w3.org/2000/svg", width: "1em", height: "1em", viewBox: "0 0 24 24", className: "h-8 w-8", "aria-hidden": "true", children: /* @__PURE__ */ t("path", { fill: "currentColor", d: "M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0a4.5 4.5 0 0 1-9 0Zm11.394-5.834a.75.75 0 0 0-1.06-1.06l-1.591 1.59a.75.75 0 1 0 1.06 1.061l1.591-1.59ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75Zm-3.916 6.894a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 1 0-1.061 1.06l1.59 1.591ZM12 18a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-2.25A.75.75 0 0 1 12 18Zm-4.242-.697a.75.75 0 0 0-1.061-1.06l-1.591 1.59a.75.75 0 0 0 1.06 1.061l1.591-1.59ZM6 12a.75.75 0 0 1-.75.75H3a.75.75 0 0 1 0-1.5h2.25A.75.75 0 0 1 6 12Zm.697-4.243a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 0 0-1.061 1.06l1.59 1.591Z" }) });
+const R = () => /* @__PURE__ */ t("svg", { xmlns: "http://www.w3.org/2000/svg", width: "1em", height: "1em", viewBox: "0 0 24 24", className: "h-8 w-8", "aria-hidden": "true", children: /* @__PURE__ */ t("path", { fill: "currentColor", fillRule: "evenodd", d: "M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9a8.97 8.97 0 0 0 3.463-.69a.75.75 0 0 1 .981.98a10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5c0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z", clipRule: "evenodd" }) }), z = () => /* @__PURE__ */ t("svg", { xmlns: "http://www.w3.org/2000/svg", width: "1em", height: "1em", viewBox: "0 0 24 24", className: "h-8 w-8", "aria-hidden": "true", children: /* @__PURE__ */ t("path", { fill: "currentColor", d: "M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0a4.5 4.5 0 0 1-9 0Zm11.394-5.834a.75.75 0 0 0-1.06-1.06l-1.591 1.59a.75.75 0 1 0 1.06 1.061l1.591-1.59ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75Zm-3.916 6.894a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 1 0-1.061 1.06l1.59 1.591ZM12 18a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-2.25A.75.75 0 0 1 12 18Zm-4.242-.697a.75.75 0 0 0-1.061-1.06l-1.591 1.59a.75.75 0 0 0 1.06 1.061l1.591-1.59ZM6 12a.75.75 0 0 1-.75.75H3a.75.75 0 0 1 0-1.5h2.25A.75.75 0 0 1 6 12Zm.697-4.243a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 0 0-1.061 1.06l1.59 1.591Z" }) });
 function te({ darkLabel: e, lightLabel: r }) {
   const [a, l] = m(!1), i = (c = !0) => {
     document.documentElement.classList.add("dark"), document.documentElement.classList.remove("light"), c && localStorage.setItem("darkMode", "enabled"), l(!0);
@@ -276,14 +276,14 @@ function te({ darkLabel: e, lightLabel: r }) {
           /* @__PURE__ */ t("span", { className: "sr-only", children: e })
         ] }),
         /* @__PURE__ */ s("span", { className: "darkmode-light", children: [
-          /* @__PURE__ */ t(O, {}),
+          /* @__PURE__ */ t(z, {}),
           /* @__PURE__ */ t("span", { className: "sr-only", children: r })
         ] })
       ]
     }
   );
 }
-const P = () => /* @__PURE__ */ t("svg", { xmlns: "http://www.w3.org/2000/svg", width: "1em", height: "1em", viewBox: "0 0 24 24", className: "h-8 w-8", "aria-hidden": "true", children: /* @__PURE__ */ t("path", { fill: "currentColor", fillRule: "evenodd", d: "M9 2.25a.75.75 0 0 1 .75.75v1.506a49.38 49.38 0 0 1 5.343.371a.75.75 0 1 1-.186 1.489a46.7 46.7 0 0 0-1.99-.206a18.67 18.67 0 0 1-2.969 6.323c.317.384.65.753.998 1.107a.75.75 0 1 1-1.07 1.052A18.902 18.902 0 0 1 9 13.687a18.823 18.823 0 0 1-5.656 4.482a.75.75 0 1 1-.688-1.333a17.323 17.323 0 0 0 5.396-4.353A18.72 18.72 0 0 1 5.89 8.598a.75.75 0 0 1 1.388-.568A17.21 17.21 0 0 0 9 11.224a17.17 17.17 0 0 0 2.391-5.165a48.038 48.038 0 0 0-8.298.307a.75.75 0 0 1-.186-1.489a49.159 49.159 0 0 1 5.343-.371V3A.75.75 0 0 1 9 2.25ZM15.75 9a.75.75 0 0 1 .68.433l5.25 11.25a.75.75 0 0 1-1.36.634l-1.198-2.567h-6.744l-1.198 2.567a.75.75 0 0 1-1.36-.634l5.25-11.25A.75.75 0 0 1 15.75 9Zm-2.672 8.25h5.344l-2.672-5.726l-2.672 5.726Z", clipRule: "evenodd" }) });
+const O = () => /* @__PURE__ */ t("svg", { xmlns: "http://www.w3.org/2000/svg", width: "1em", height: "1em", viewBox: "0 0 24 24", className: "h-8 w-8", "aria-hidden": "true", children: /* @__PURE__ */ t("path", { fill: "currentColor", fillRule: "evenodd", d: "M9 2.25a.75.75 0 0 1 .75.75v1.506a49.38 49.38 0 0 1 5.343.371a.75.75 0 1 1-.186 1.489a46.7 46.7 0 0 0-1.99-.206a18.67 18.67 0 0 1-2.969 6.323c.317.384.65.753.998 1.107a.75.75 0 1 1-1.07 1.052A18.902 18.902 0 0 1 9 13.687a18.823 18.823 0 0 1-5.656 4.482a.75.75 0 1 1-.688-1.333a17.323 17.323 0 0 0 5.396-4.353A18.72 18.72 0 0 1 5.89 8.598a.75.75 0 0 1 1.388-.568A17.21 17.21 0 0 0 9 11.224a17.17 17.17 0 0 0 2.391-5.165a48.038 48.038 0 0 0-8.298.307a.75.75 0 0 1-.186-1.489a49.159 49.159 0 0 1 5.343-.371V3A.75.75 0 0 1 9 2.25ZM15.75 9a.75.75 0 0 1 .68.433l5.25 11.25a.75.75 0 0 1-1.36.634l-1.198-2.567h-6.744l-1.198 2.567a.75.75 0 0 1-1.36-.634l5.25-11.25A.75.75 0 0 1 15.75 9Zm-2.672 8.25h5.344l-2.672-5.726l-2.672 5.726Z", clipRule: "evenodd" }) });
 function re({
   englishURL: e,
   finnishURL: r,
@@ -307,7 +307,7 @@ function re({
           hover:border-y-4 hover:border-lt-purple dark:hover:border-dk-blue-light
           focus:outline focus:outline-2 focus:outline-offset-4 focus:outline-black dark:focus:outline-white`,
         children: [
-          /* @__PURE__ */ t(P, {}),
+          /* @__PURE__ */ t(O, {}),
           o
         ]
       }
@@ -327,15 +327,18 @@ function re({
 }
 function le() {
   const [e] = m(() => Math.floor(Math.random() * 6) + 1);
-  return /* @__PURE__ */ t("div", { "aria-hidden": "true", className: "main-image--wrapper relative w-full h-125-px md:h-250-px lg:h-350-px overflow-hidden", children: /* @__PURE__ */ t(
-    "div",
-    {
-      className: "relative w-screen h-125-px md:h-250-px lg:h-350-px bg-cover bg-center",
-      style: { backgroundImage: `url('/mountains/${e}.jpg')` }
-    }
-  ) });
+  return /* @__PURE__ */ s("div", { "aria-hidden": "true", className: "main-image--wrapper relative w-full h-125-px md:h-250-px lg:h-350-px overflow-hidden", children: [
+    /* @__PURE__ */ t(
+      "div",
+      {
+        className: "relative w-screen h-125-px md:h-250-px lg:h-350-px bg-cover bg-center",
+        style: { backgroundImage: `url('/mountains/${e}.jpg')` }
+      }
+    ),
+    /* @__PURE__ */ t("div", { className: "main-image--overlay z-10 absolute inset-0 w-full" })
+  ] });
 }
-const U = () => /* @__PURE__ */ t(
+const P = () => /* @__PURE__ */ t(
   "svg",
   {
     xmlns: "http://www.w3.org/2000/svg",
@@ -364,7 +367,7 @@ function ae({ searchLabel: e, searchUrl: r }) {
           hover:border-y-4 hover:border-lt-purple dark:hover:border-dk-blue-light
           focus:outline focus:outline-2 focus:outline-offset-4 focus:outline-black dark:focus:outline-white`,
       children: [
-        /* @__PURE__ */ t(U, {}),
+        /* @__PURE__ */ t(P, {}),
         /* @__PURE__ */ t("span", { className: "sr-only", children: e })
       ]
     }

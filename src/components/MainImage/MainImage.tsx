@@ -9,6 +9,7 @@ export function MainImage() {
         className="relative w-screen h-125-px md:h-250-px lg:h-350-px bg-cover bg-center"
         style={{ backgroundImage: `url('/mountains/${imageNumber}.jpg')` }}
       />
+      <div className="main-image--overlay z-10 absolute inset-0 w-full" />
     </div>
   );
 }
