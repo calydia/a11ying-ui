@@ -18,16 +18,20 @@
     "build": "vite build --config vite.config.build.ts",
     "prepare": "npm run build",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test:storybook": "playwright test --config playwright.storybook.config.ts",
+    "test:storybook:update": "playwright test --config playwright.storybook.config.ts --update-snapshots"
   },
   "keywords": [],
   "author": "Sanna Kramsi",
   "license": "MIT",
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
     "@chromatic-com/storybook": "^5.0.1",
     "@fontsource/atkinson-hyperlegible": "^5.2.8",
     "@fontsource/lato": "^5.2.7",
     "@fontsource/satisfy": "^5.2.7",
+    "@playwright/test": "^1.58.2",
     "@storybook/addon-a11y": "^10.2.19",
     "@storybook/addon-docs": "^10.2.19",
     "@storybook/addon-onboarding": "^10.2.19",
