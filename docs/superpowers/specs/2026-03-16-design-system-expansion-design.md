@@ -28,7 +28,7 @@ Displays a full-width decorative hero image band. Randomly selects one of six mo
 
 - **Component:** `src/components/MainImage/MainImage.tsx`
 - **Props:** none
-- **Implementation:** Uses `useState(() => Math.floor(Math.random() * 5) + 1)` to pick image index once on mount. Background image set via inline `style` prop (instead of scoped Astro CSS).
+- **Implementation:** Uses `useState(() => Math.floor(Math.random() * 6) + 1)` to pick image index once on mount (produces values 1–6 inclusive). Background image set via inline `style` prop (instead of scoped Astro CSS).
 - **Astro usage:** `<MainImage client:only="react" />` — `client:only` avoids SSR/client hydration mismatch since the random selection differs between server and browser.
 - **CSS:** The `.main-image--wrapper::before` overlay stays in each site's `Layout.astro` (it references site-specific dark/light class colour variables and is already defined there).
 - **Images:** Both sites serve `/mountains/1.jpg` through `/mountains/6.jpg` and their `.webp` equivalents from their own `public/` folders.
@@ -52,8 +52,9 @@ Renders a search icon link in the site header. Tapping it navigates to the langu
 - **Props:**
   - `searchLabel: string` — screen-reader label (from site i18n)
   - `searchUrl: string` — href for the search page link (e.g. `/en/search/`)
-- **Implementation:** Inline SVG for the magnifying glass icon (same pattern as `ThemeToggle` and `LanguageSwitcher`). Uses `client:load` in Astro.
+- **Implementation:** Inline SVG for the magnifying glass icon (same pattern as `ThemeToggle` and `LanguageSwitcher`). Uses `client:load` in Astro — the link is meaningful on first paint (unlike `MainImage` which is purely decorative), so `client:only` would cause a visible link to be absent until hydration.
 - **URL resolution:** Each site's Astro wrapper resolves the correct locale-based URL and passes it as `searchUrl`. The component has no i18n dependency.
+- **Props type:** `SearchBlockProps`
 
 ### Migration
 
@@ -92,7 +93,10 @@ Renders accessible breadcrumb navigation as `<nav><ol>`. Items before the last a
     href?: string; // omit for the current page (rendered as plain text)
   }
   ```
+- **Props type:** `BreadcrumbProps`
 - **Rendering:** Items separated by `<span aria-hidden="true" className="mx-2">/</span>`. Uses `<ol>` (corrects the existing `<ul>` in a11ying-front).
+- **Edge cases:** If `items` is empty, render nothing (return `null`). If `items` has one entry, render it as plain text with no separator.
+- **Stories:** Default (3 items with links + current page), single item, empty array, long path (5+ items).
 - **Astro usage:** `<Breadcrumb items={...} ariaLabel={...} client:load />`
 
 ### Site wrappers (data assembly stays local)
@@ -118,8 +122,39 @@ Shared TypeScript interfaces for the site main navigation menu structure. Curren
 ### Design
 
 - **File:** `src/types/MainMenu.ts`
-- Exports `MainMenu` and `MainMenuItem` interfaces.
-- Both sites remove these from their local `menuInterfaces.ts` and import from `a11ying-ui` instead.
+- Exports `MainMenu` and `MainMenuItem` interfaces. The `firstLevel` array element shape stays inline inside `MainMenu` (matching both sites). `relationTo` is `optional` because a11ying-front includes it while wcag-front omits it — `optional` satisfies both consumers without a breaking change:
+  ```ts
+  export interface MainMenu {
+    firstLevel: Array<{
+      element: string;
+      iconClass?: string;
+      button?: string;
+      mainPath?: string;
+      menuPath?: string;
+      menuLink?: {
+        relationTo?: string;
+        value: { title: string; pageUrl: string };
+      };
+      secondLevel?: MainMenuItem[];
+      thirdLevel?: MainMenuItem[];
+    }>;
+  }
+
+  export interface MainMenuItem {
+    element: string;
+    iconClass?: string;
+    button?: string;
+    mainPath?: string;
+    menuPath?: string;
+    menuLink?: {
+      relationTo?: string;
+      value: { title: string; pageUrl: string };
+    };
+    secondLevel?: MainMenuItem[];
+    thirdLevel?: MainMenuItem[];
+  }
+  ```
+- Both sites remove `MainMenu` and `MainMenuItem` from their local `menuInterfaces.ts` and import both from `a11ying-ui` instead. Note: `MainMenu.firstLevel` items and `MainMenuItem` share an identical shape by design — they are kept as separate types to exactly match the source structure and to avoid confusion between the first-level nav items (within `MainMenu`) and the general `MainMenuItem` used for recursive second/third levels.
 - `MainNavigation.astro`, `SideMenu.astro`, and `HumanSitemap.astro` in both sites update their import lines.
 
 ---
@@ -139,7 +174,16 @@ All four items ship together as **v1.6.0**. Both sites update their `package.jso
 - `src/components/Breadcrumb/Breadcrumb.stories.tsx` *(new)*
 - `src/types/BreadcrumbItem.ts` *(new)*
 - `src/types/MainMenu.ts` *(new)*
-- `src/index.ts` *(updated — add new exports)*
+- `src/index.ts` *(updated — add the following exports)*:
+  ```ts
+  export { MainImage } from './components/MainImage/MainImage';
+  export { SearchBlock } from './components/SearchBlock/SearchBlock';
+  export type { SearchBlockProps } from './components/SearchBlock/SearchBlock';
+  export { Breadcrumb } from './components/Breadcrumb/Breadcrumb';
+  export type { BreadcrumbProps } from './components/Breadcrumb/Breadcrumb';
+  export type { BreadcrumbItem } from './types/BreadcrumbItem';
+  export type { MainMenu, MainMenuItem } from './types/MainMenu';
+  ```
 - `package.json` *(updated — bump to 1.6.0)*
 
 ### a11ying-front (modified)
