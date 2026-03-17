@@ -38,16 +38,19 @@ for (const { id, name } of stories) {
 
     // landmark-one-main, page-has-heading-one, region: page-structure rules that don't
     // apply to individual component iframes — the consuming sites satisfy all three.
-    let builder = new AxeBuilder({ page })
-      .disableRules(['landmark-one-main', 'page-has-heading-one', 'region']);
-
+    //
     // link-in-text-block: known issue in RichText — body text links lack a default underline.
     // Tracked separately; suppressed here to keep this suite green while under investigation.
+    // NOTE: disableRules() resets the rules object each call, so all disabled rules must be
+    // passed in a single call.
+    const disabledRules = ['landmark-one-main', 'page-has-heading-one', 'region'];
     if (id.startsWith('components-richtext')) {
-      builder = builder.disableRules(['link-in-text-block']);
+      disabledRules.push('link-in-text-block');
     }
 
-    const results = await builder.analyze();
+    const results = await new AxeBuilder({ page })
+      .disableRules(disabledRules)
+      .analyze();
     expect(results.violations).toEqual([]);
   });
 }
