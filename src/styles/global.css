@@ -89,7 +89,14 @@
   h3::before,
   h4::before {
     content: '';
-    @apply bg-lt-perfume dark:bg-dk-purple-header absolute block z-[-1] bottom-0 w-10 h-2.5;
+    @apply bg-lt-perfume absolute block z-[-1] bottom-0 w-10 h-2.5;
+  }
+
+  .dark h1::before,
+  .dark h2::before,
+  .dark h3::before,
+  .dark h4::before {
+    background-color: var(--color-dk-purple-header);
   }
 
   strong {
