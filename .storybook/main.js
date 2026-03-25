@@ -13,6 +13,11 @@ const config = {
     "@storybook/addon-docs",
     "@storybook/addon-onboarding"
   ],
-  "framework": "@storybook/react-vite"
+  "framework": "@storybook/react-vite",
+  async viteFinal(config) {
+    const { default: tailwindcss } = await import('@tailwindcss/vite');
+    config.plugins = [...(config.plugins ?? []), tailwindcss()];
+    return config;
+  },
 };
 export default config;

@@ -1,6 +1,6 @@
 {
   "name": "a11ying-ui",
-  "version": "1.6.0",
+  "version": "2.0.0",
   "description": "Shared design system for A11ying brand sites",
   "type": "module",
   "files": [
@@ -41,14 +41,14 @@
     "@types/react-dom": "^19.2.3",
     "@vitest/browser-playwright": "^4.1.0",
     "@vitest/coverage-v8": "^4.1.0",
-    "autoprefixer": "^10.4.27",
+    "@tailwindcss/vite": "^4.2.2",
+    "tailwindcss": "^4.2.2",
     "playwright": "^1.58.2",
     "prop-types": "^15.8.1",
     "qs-esm": "^7.0.3",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "storybook": "^10.2.19",
-    "tailwindcss": "^3.4.19",
     "vitest": "^4.1.0"
   }
 }
