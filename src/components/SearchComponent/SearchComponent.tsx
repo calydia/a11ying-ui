@@ -166,10 +166,10 @@ export function SearchComponent({
                   className="my-2 py-6 flex flex-col border-t-2"
                 >
                   <a
-                    className="my-2 text-xl order-3"
+                    className="my-2 text-xl order-3 inline-flex items-baseline self-start"
                     href={`${siteUrl}${searchLocale}/${result.searchPageUrl}/`}
                   >
-                    <h3 className="search-heading mt-0 mb-0.5 text-lg lg:text-xl inline">
+                    <h3 className="search-heading mt-0 mb-0.5 text-lg lg:text-xl">
                       {result.title}
                     </h3>
                   </a>

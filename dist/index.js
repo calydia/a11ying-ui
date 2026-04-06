@@ -224,9 +224,9 @@ function ee({
               /* @__PURE__ */ t(
                 "a",
                 {
-                  className: "my-2 text-xl order-3",
+                  className: "my-2 text-xl order-3 inline-flex items-baseline self-start",
                   href: `${q}${n}/${d.searchPageUrl}/`,
-                  children: /* @__PURE__ */ t("h3", { className: "search-heading mt-0 mb-0.5 text-lg lg:text-xl inline", children: d.title })
+                  children: /* @__PURE__ */ t("h3", { className: "search-heading mt-0 mb-0.5 text-lg lg:text-xl", children: d.title })
                 }
               ),
               /* @__PURE__ */ s("span", { className: "w-full self-end text-sm text-right order-1", children: [
