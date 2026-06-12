@@ -1,5 +1,5 @@
 export interface FooterMenu {
-    navigationLinks: FooterMenuRaw[];
+    navigationLinks: FooterMenuItem[];
 }
 export interface FooterMenuRaw {
     iconClass: string;

@@ -29,6 +29,7 @@ export default defineConfig({
         mkdirSync('dist', { recursive: true });
         copyFileSync('tailwind.config.cjs', 'dist/tailwind.config.cjs');
         copyFileSync('src/styles/global.css', 'dist/global.css');
+        copyFileSync('src/styles/styles.d.ts', 'dist/styles.d.ts');
       },
     },
   ],

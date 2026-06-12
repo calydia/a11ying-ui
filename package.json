@@ -1,6 +1,6 @@
 {
   "name": "a11ying-ui",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Shared design system for A11ying brand sites",
   "type": "module",
   "files": [
@@ -13,7 +13,10 @@
       "require": "./dist/index.cjs"
     },
     "./tailwind": "./dist/tailwind.config.cjs",
-    "./styles": "./dist/global.css"
+    "./styles": {
+      "types": "./dist/styles.d.ts",
+      "default": "./dist/global.css"
+    }
   },
   "types": "./dist/index.d.ts",
   "scripts": {
