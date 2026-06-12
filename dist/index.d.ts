@@ -22,3 +22,4 @@ export type { SearchResults, SearchResultsResponse } from './types/SearchResults
 export type { FooterMenu, FooterMenuRaw, FooterMenuItem } from './types/FooterMenu';
 export type { BreadcrumbItem } from './types/BreadcrumbItem';
 export type { MainMenu, MainMenuItem } from './types/MainMenu';
+export { sanitizeCmsHtml, sanitizeCmsUrl } from './lib/sanitizeCmsHtml';

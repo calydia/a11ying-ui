@@ -1,4 +1,5 @@
 import type { RichTextNode } from '../../types/RichTextNode';
+import { sanitizeCmsHtml, sanitizeCmsUrl } from '../../lib/sanitizeCmsHtml';
 import React, { useMemo } from 'react';
 
 export interface RichTextProps {
@@ -80,15 +81,20 @@ const renderers: Record<
 
   linebreak: () => <br />,
 
-  link: (node, children) => (
-    <a
-      href={node.fields?.url}
-      target={node.fields?.newTab ? '_blank' : undefined}
-      rel={node.fields?.newTab ? 'noopener noreferrer' : undefined}
-    >
-      {children}
-    </a>
-  ),
+  link: (node, children) => {
+    const href = sanitizeCmsUrl(node.fields?.url);
+
+    return href ? (
+      <a
+        href={href}
+        target={node.fields?.newTab ? '_blank' : undefined}
+        rel={node.fields?.newTab ? 'noopener noreferrer' : undefined}
+        className="underline underline-offset-4 decoration-1 hover:decoration-2"
+      >
+        {children}
+      </a>
+    ) : <>{children}</>;
+  },
 
   list: (node, children) => {
     const Tag = (node.tag || 'ul') as React.ElementType;
@@ -101,14 +107,18 @@ const renderers: Record<
 
   horizontalrule: () => <hr className="my-6" />,
 
-  upload: (node) =>
-    node.value?.url ? (
+  upload: (node) => {
+    const value = node.value;
+    const src = sanitizeCmsUrl(value?.url, ['http', 'https']);
+
+    return src ? (
       <img
-        src={node.value.url}
-        alt={node.value.alt || ''}
+        src={src}
+        alt={value?.alt || ''}
         className="my-4 rounded-lg shadow"
       />
-    ) : null,
+    ) : null;
+  },
 
   block: (node, _children, lang) => {
     const blockType = node.fields?.blockType;
@@ -152,7 +162,7 @@ const renderers: Record<
         return (
           <div
             className="richtext-html-block"
-            dangerouslySetInnerHTML={{ __html: node.fields?.HTMLContent ?? '' }}
+            dangerouslySetInnerHTML={{ __html: sanitizeCmsHtml(node.fields?.HTMLContent) }}
           />
         );
       }
