@@ -1,7 +1,17 @@
+export type RichTextTag =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'ol'
+  | 'ul';
+
 export interface RichTextNode {
   demoContent: boolean;
-  format?: number | string;
-  tag?: number;
+  format?: number;
+  tag?: RichTextTag;
   text?: string;
   type: string;
   fields?: {

@@ -40,7 +40,7 @@ function H(e) {
 const $ = {
   paragraph: (e, r) => /* @__PURE__ */ t("p", { className: "mb-4", children: r }),
   heading: (e, r) => {
-    const a = `${e.tag}`, l = e.children?.map((n) => n.text || "").join("") || "", i = k(l);
+    const a = e.tag || "h2", l = e.children?.map((n) => n.text || "").join("") || "", i = k(l);
     return /* @__PURE__ */ t(a, { id: i, className: "font-bold mt-6 mb-2", children: r });
   },
   text: (e) => {
@@ -58,7 +58,7 @@ const $ = {
     }
   ),
   list: (e, r) => {
-    const a = `${e.tag || "ul"}`;
+    const a = e.tag || "ul";
     return /* @__PURE__ */ t(a, { className: "ml-6", children: r });
   },
   listitem: (e, r) => /* @__PURE__ */ t("li", { children: r }),

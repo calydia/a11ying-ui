@@ -47,12 +47,12 @@ function collectHeadings(nodes: RichTextNode[]) {
 
 const renderers: Record<
   string,
-  (node: RichTextNode, children: React.ReactNode[], lang: string) => JSX.Element | null
+  (node: RichTextNode, children: React.ReactNode[], lang: string) => React.JSX.Element | null
 > = {
   paragraph: (_, children) => <p className="mb-4">{children}</p>,
 
   heading: (node, children) => {
-    const Tag = `${node.tag}` as keyof JSX.IntrinsicElements;
+    const Tag = (node.tag || 'h2') as React.ElementType;
     const text = node.children?.map((c) => c.text || '').join('') || '';
     const id = slugify(text);
     return (
@@ -91,7 +91,7 @@ const renderers: Record<
   ),
 
   list: (node, children) => {
-    const Tag = `${node.tag || 'ul'}` as keyof JSX.IntrinsicElements;
+    const Tag = (node.tag || 'ul') as React.ElementType;
     return <Tag className="ml-6">{children}</Tag>;
   },
 
@@ -200,7 +200,7 @@ function renderNode(
   node: RichTextNode,
   key: number,
   lang: string
-): JSX.Element | null {
+): React.JSX.Element | null {
   const children =
     node.children?.map((child, i) => renderNode(child, i, lang)) || [];
 

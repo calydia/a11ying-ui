@@ -18,10 +18,10 @@ const p = (text: string): RichTextNode => ({
   children: [{ demoContent: false, type: 'text', text }],
 });
 
-const h = (tag: string, text: string): RichTextNode => ({
+const h = (tag: NonNullable<RichTextNode['tag']>, text: string): RichTextNode => ({
   demoContent: false,
   type: 'heading',
-  tag: tag as unknown as number,
+  tag,
   children: [{ demoContent: false, type: 'text', text }],
 });
 
@@ -52,7 +52,7 @@ const nodes: RichTextNode[] = [
   {
     demoContent: false,
     type: 'list',
-    tag: 'ul' as unknown as number,
+    tag: 'ul',
     children: [
       { demoContent: false, type: 'listitem', children: [{ demoContent: false, type: 'text', text: 'Perceivable' }] },
       { demoContent: false, type: 'listitem', children: [{ demoContent: false, type: 'text', text: 'Operable' }] },
