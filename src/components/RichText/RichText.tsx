@@ -1,4 +1,8 @@
 import type { RichTextNode } from '../../types/RichTextNode';
+import {
+  buildRichTextHeadingPlan,
+  type RichTextHeadingPlan,
+} from '../../lib/richTextHeadingPlan';
 import { sanitizeCmsHtml, sanitizeCmsUrl } from '../../lib/sanitizeCmsHtml';
 import React, { useMemo } from 'react';
 
@@ -16,46 +20,24 @@ export interface RichTextProps {
   tocLabel?: string;
 }
 
-function slugify(str: string): string {
-  return str
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
-function collectHeadings(nodes: RichTextNode[]) {
-  const headings: { id: string; text: string; level: string }[] = [];
-
-  function walk(node: RichTextNode) {
-    if (node.type === 'heading') {
-      const text = node.children?.map((c) => c.text || '').join('') || '';
-      const id = slugify(text);
-      headings.push({ id, text, level: node.tag as unknown as string });
-    }
-
-    if (node.type === 'block' && node.fields?.blockType === 'ContentBox') {
-      const text = node.fields?.heading?.replace(' ', '-');
-      const id = slugify(text ?? '') || 'content-box';
-      headings.push({ id, text: node.fields?.heading ?? '', level: 'h2' });
-    }
-
-    node.children?.forEach(walk);
-  }
-
-  nodes.forEach(walk);
-  return headings;
+interface RenderContext {
+  lang: string;
+  headingPlan: RichTextHeadingPlan;
 }
 
 const renderers: Record<
   string,
-  (node: RichTextNode, children: React.ReactNode[], lang: string) => React.JSX.Element | null
+  (
+    node: RichTextNode,
+    children: React.ReactNode[],
+    context: RenderContext
+  ) => React.JSX.Element | null
 > = {
   paragraph: (_, children) => <p className="mb-4">{children}</p>,
 
-  heading: (node, children) => {
+  heading: (node, children, context) => {
     const Tag = (node.tag || 'h2') as React.ElementType;
-    const text = node.children?.map((c) => c.text || '').join('') || '';
-    const id = slugify(text);
+    const id = context.headingPlan.ids.get(node) ?? 'heading';
     return (
       <Tag id={id} className="font-bold mt-6 mb-2">
         {children}
@@ -120,7 +102,7 @@ const renderers: Record<
     ) : null;
   },
 
-  block: (node, _children, lang) => {
+  block: (node, _children, context) => {
     const blockType = node.fields?.blockType;
 
     if (blockType === 'DisclosureWidget') {
@@ -131,7 +113,7 @@ const renderers: Record<
             {node.fields?.heading || 'Details'}
           </summary>
           <div className="details-content">
-            <RichText nodes={nestedNodes} lang={lang} />
+            {renderNodes(nestedNodes, context)}
           </div>
         </details>
       );
@@ -139,8 +121,7 @@ const renderers: Record<
 
     if (blockType === 'ContentBox') {
       const nestedNodes = node.fields?.boxContent?.root?.children || [];
-      const text = node.fields?.heading?.replace(' ', '-') ?? '';
-      const id = slugify(text) || 'content-box';
+      const id = context.headingPlan.ids.get(node) ?? 'content-box';
       const mainClass = node.fields?.cssClass;
       const extraClasses =
         node.fields?.cssClass === 'box-gradient'
@@ -151,7 +132,7 @@ const renderers: Record<
         <div className={`${mainClass} ${extraClasses}`}>
           <h2 id={id}>{node.fields?.heading}</h2>
           <div className="content-box--inner-wrapper">
-            <RichText nodes={nestedNodes} lang={lang} />
+            {renderNodes(nestedNodes, context)}
           </div>
         </div>
       );
@@ -209,15 +190,15 @@ const renderers: Record<
 function renderNode(
   node: RichTextNode,
   key: number,
-  lang: string
+  context: RenderContext
 ): React.JSX.Element | null {
   const children =
-    node.children?.map((child, i) => renderNode(child, i, lang)) || [];
+    node.children?.map((child, i) => renderNode(child, i, context)) || [];
 
   if (renderers[node.type]) {
     return (
       <React.Fragment key={key}>
-        {renderers[node.type](node, children, lang)}
+        {renderers[node.type](node, children, context)}
       </React.Fragment>
     );
   }
@@ -229,25 +210,29 @@ function renderNode(
   );
 }
 
+function renderNodes(nodes: RichTextNode[], context: RenderContext) {
+  return nodes.map((node, index) => renderNode(node, index, context));
+}
+
 function defaultTocLabel(lang: string): string {
   return lang === 'fi' ? 'Tällä sivulla' : 'On this page';
 }
 
 export function RichText({ nodes, lang, withTOC = false, tocLabel }: RichTextProps) {
-  const toc = useMemo(() => collectHeadings(nodes), [nodes]);
+  const headingPlan = useMemo(() => buildRichTextHeadingPlan(nodes), [nodes]);
   const heading = tocLabel ?? defaultTocLabel(lang);
 
   if (withTOC) {
     return (
       <>
-        {toc.length > 0 && (
+        {headingPlan.tocEntries.length > 0 && (
           <div className="toc-box">
             <h2 id="toc-heading" className="mb-2 mt-0">
               {heading}
             </h2>
             <nav aria-labelledby="toc-heading">
               <ul className="ml-4 mb-0">
-                {toc.map((h) => (
+                {headingPlan.tocEntries.map((h) => (
                   <li key={h.id}>
                     <a href={`#${h.id}`} className="text-blue-600 underline">
                       {h.text}
@@ -262,5 +247,5 @@ export function RichText({ nodes, lang, withTOC = false, tocLabel }: RichTextPro
     );
   }
 
-  return <>{nodes.map((node, i) => renderNode(node, i, lang))}</>;
+  return <>{renderNodes(nodes, { lang, headingPlan })}</>;
 }
