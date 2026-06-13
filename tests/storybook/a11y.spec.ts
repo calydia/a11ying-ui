@@ -28,6 +28,7 @@ const stories: { id: string; name: string }[] = [
   { id: 'components-box--notice', name: 'Box/Notice' },
   { id: 'components-richtext--default', name: 'RichText/Default' },
   { id: 'components-richtext--finnish', name: 'RichText/Finnish' },
+  { id: 'components-richtext--heading-id-pair', name: 'RichText/HeadingIdPair' },
   { id: 'components-mainimage--default', name: 'MainImage/Default' },
 ];
 

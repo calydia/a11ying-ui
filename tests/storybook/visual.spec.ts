@@ -25,6 +25,7 @@ const stories: { id: string; name: string }[] = [
   { id: 'components-box--notice', name: 'box-notice' },
   { id: 'components-richtext--default', name: 'richtext-default' },
   { id: 'components-richtext--finnish', name: 'richtext-finnish' },
+  { id: 'components-richtext--heading-id-pair', name: 'richtext-heading-ids' },
 ];
 
 for (const { id, name } of stories) {

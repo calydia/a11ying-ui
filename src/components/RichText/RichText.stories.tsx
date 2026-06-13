@@ -94,6 +94,33 @@ const tocNodes: RichTextNode[] = [
   p('Interface components must be operable.'),
 ];
 
+const headingIdNodes: RichTextNode[] = [
+  h('h2', 'Näkö ja ääni'),
+  p('Accented Finnish text should produce a readable ASCII fragment.'),
+  h('h2', 'Overview'),
+  p('The first repeated heading uses the base fragment.'),
+  h('h2', 'Overview'),
+  p('The second repeated heading receives a numeric suffix.'),
+  {
+    demoContent: false,
+    type: 'block',
+    fields: {
+      blockType: 'ContentBox',
+      heading: 'Overview',
+      cssClass: 'notice-box',
+      boxContent: {
+        root: {
+          children: [
+            h('h3', 'Overview'),
+            p('This nested heading receives an ID but stays outside the table of contents.'),
+          ],
+        },
+      },
+      content: {},
+    },
+  },
+];
+
 export const Default: Story = {
   args: { nodes, lang: 'en' },
 };
@@ -120,4 +147,18 @@ export const WithCustomTocLabel: Story = {
     withTOC: true,
     tocLabel: 'På den här sidan',
   },
+};
+
+export const HeadingIdPair: Story = {
+  name: 'Heading ID pair',
+  args: {
+    nodes: headingIdNodes,
+    lang: 'fi',
+  },
+  render: (args) => (
+    <>
+      <RichText {...args} withTOC />
+      <RichText {...args} />
+    </>
+  ),
 };
