@@ -19,4 +19,4 @@ export interface SkipLinkProps {
  * The i18n translation of `label` is intentionally left to the consuming site
  * so this component stays framework-agnostic.
  */
-export declare function SkipLink({ href, id, label, forceVisible }: SkipLinkProps): import("react/jsx-runtime").JSX.Element;
+export declare function SkipLink({ href, id, label, forceVisible }: SkipLinkProps): import("react").JSX.Element;

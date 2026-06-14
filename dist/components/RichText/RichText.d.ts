@@ -1,4 +1,5 @@
 import type { RichTextNode } from '../../types/RichTextNode';
+import React from 'react';
 export interface RichTextProps {
     nodes: RichTextNode[];
     /** BCP 47 language tag, e.g. "en" or "fi". Used by inline language blocks. */
@@ -12,4 +13,4 @@ export interface RichTextProps {
      */
     tocLabel?: string;
 }
-export declare function RichText({ nodes, lang, withTOC, tocLabel }: RichTextProps): import("react/jsx-runtime").JSX.Element;
+export declare function RichText({ nodes, lang, withTOC, tocLabel }: RichTextProps): React.JSX.Element;

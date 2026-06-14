@@ -1,3 +1,4 @@
+import React from 'react';
 export interface LanguageSwitcherProps {
     englishURL: string;
     finnishURL: string;
@@ -7,4 +8,4 @@ export interface LanguageSwitcherProps {
     ariaLabel: string;
     languageLabel: string;
 }
-export declare function LanguageSwitcher({ englishURL, finnishURL, currentPage, currentLang, type, ariaLabel, languageLabel, }: LanguageSwitcherProps): import("react/jsx-runtime").JSX.Element;
+export declare function LanguageSwitcher({ englishURL, finnishURL, currentPage, currentLang, type, ariaLabel, languageLabel, }: LanguageSwitcherProps): React.JSX.Element;

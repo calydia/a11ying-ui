@@ -16,4 +16,4 @@ export interface ButtonProps {
  * A11ying brand button. Supports a solid primary style and a text-only
  * alternative style. Both variants include accessible focus rings.
  */
-export declare function Button({ children, variant, href, onClick, type, disabled, className, }: ButtonProps): import("react/jsx-runtime").JSX.Element;
+export declare function Button({ children, variant, href, onClick, type, disabled, className, }: ButtonProps): React.JSX.Element;

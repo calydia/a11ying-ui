@@ -1,1 +1,2 @@
-export declare function MainImage(): import("react/jsx-runtime").JSX.Element;
+import React from 'react';
+export declare function MainImage(): React.JSX.Element;
