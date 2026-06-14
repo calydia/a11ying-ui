@@ -318,7 +318,7 @@ export function SearchComponent({
                     className="my-2 text-xl order-3 inline-flex items-baseline self-start"
                     href={`${siteUrl}${searchLocale}/${result.searchPageUrl}/`}
                   >
-                    <h3 className="search-heading mt-0 mb-0.5 text-lg lg:text-xl">
+                    <h3 className="search-heading mt-0 mb-0.5 text-lg lg:text-xl inline">
                       {result.title}
                     </h3>
                   </a>
