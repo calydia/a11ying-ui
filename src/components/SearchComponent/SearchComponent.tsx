@@ -1,7 +1,12 @@
-import type { FormEvent, ReactNode } from 'react';
-import { useState } from 'react';
+import type { FormEvent } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { stringify } from 'qs-esm';
 import type { SearchResults, SearchResultsResponse } from '../../types/SearchResults';
+import {
+  createSearchUrl,
+  normalizeSearchQuery,
+  readSearchQuery,
+} from '../../lib/searchUrlState';
 
 export interface SearchComponentProps {
   searchLabel: string;
@@ -9,6 +14,8 @@ export interface SearchComponentProps {
   searchMainHeading: string;
   searchResultLabel: string;
   searchNoResults: string;
+  searchLoading: string;
+  searchError: string;
   searchLocale: string;
   searchSiteName: string;
   searchContentType: string;
@@ -34,11 +41,12 @@ export interface SearchComponentProps {
 async function fetchSearchResults(
   payloadUrl: string,
   searchQuery: string,
-  locale: string
+  locale: string,
+  signal: AbortSignal
 ): Promise<SearchResultsResponse> {
   const langParam = locale ? `locale=${locale}` : '';
   const url = `${payloadUrl}/api/search?${langParam}&pagination=false&${searchQuery}`;
-  const res = await fetch(url);
+  const res = await fetch(url, { signal });
   if (!res.ok) throw new Error(`Search request failed: ${res.status}`);
   return res.json();
 }
@@ -61,12 +69,28 @@ function getContentType(name: string, locale: string): string {
   return types[name]?.[locale === 'fi' ? 'fi' : 'en'] ?? '';
 }
 
+type SearchStatus = 'idle' | 'loading' | 'success' | 'error';
+
+interface SearchState {
+  status: SearchStatus;
+  submittedQuery: string;
+  results: SearchResultsResponse | null;
+}
+
+const initialSearchState: SearchState = {
+  status: 'idle',
+  submittedQuery: '',
+  results: null,
+};
+
 export function SearchComponent({
   searchLabel,
   searchButton,
   searchMainHeading,
   searchResultLabel,
   searchNoResults,
+  searchLoading,
+  searchError,
   searchLocale,
   searchSiteName,
   searchContentType,
@@ -75,15 +99,41 @@ export function SearchComponent({
   resultBaseUrls = {},
 }: SearchComponentProps) {
   const [searchWords, setSearchWords] = useState('');
-  const [searchPageResult, setSearchPageResult] = useState<SearchResultsResponse | null>(null);
-  const [totalEstimatedHits, setTotalEstimatedHits] = useState<ReactNode>();
-  const [sentSearchWords, setSentSearchWords] = useState('');
+  const [searchState, setSearchState] = useState<SearchState>(initialSearchState);
+  const activeRequest = useRef<AbortController | null>(null);
+  const requestIdentity = useRef(0);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   function getSiteUrl(relationTo: string): string {
     return resultBaseUrls[relationTo] ?? defaultResultBaseUrl;
   }
 
-  const searchDocs = async (search: string, locale: string) => {
+  const resetSearch = useCallback((updateDraft = true) => {
+    activeRequest.current?.abort();
+    activeRequest.current = null;
+    requestIdentity.current += 1;
+
+    if (updateDraft) {
+      setSearchWords('');
+    }
+
+    setSearchState(initialSearchState);
+  }, []);
+
+  const searchDocs = useCallback(async (search: string) => {
+    activeRequest.current?.abort();
+
+    const controller = new AbortController();
+    const identity = requestIdentity.current + 1;
+    activeRequest.current = controller;
+    requestIdentity.current = identity;
+
+    setSearchState({
+      status: 'loading',
+      submittedQuery: search,
+      results: null,
+    });
+
     const queryObj = {
       where: {
         and: [
@@ -99,20 +149,104 @@ export function SearchComponent({
       },
     };
 
-    const results = await fetchSearchResults(payloadUrl, stringify(queryObj), locale);
-    setSearchPageResult(results);
-    setTotalEstimatedHits(results.totalDocs);
-  };
+    try {
+      const results = await fetchSearchResults(
+        payloadUrl,
+        stringify(queryObj),
+        searchLocale,
+        controller.signal
+      );
+
+      if (requestIdentity.current !== identity) {
+        return;
+      }
+
+      activeRequest.current = null;
+      setSearchState({
+        status: 'success',
+        submittedQuery: search,
+        results,
+      });
+    } catch (error) {
+      if (
+        controller.signal.aborted ||
+        requestIdentity.current !== identity ||
+        (error instanceof Error && error.name === 'AbortError')
+      ) {
+        return;
+      }
+
+      activeRequest.current = null;
+      console.error(error);
+      setSearchState({
+        status: 'error',
+        submittedQuery: search,
+        results: null,
+      });
+    }
+  }, [payloadUrl, searchLocale]);
+
+  useEffect(() => {
+    const restoreSearchFromUrl = () => {
+      const query = readSearchQuery(new URL(window.location.href));
+      setSearchWords(query);
+
+      if (query) {
+        void searchDocs(query);
+      } else {
+        resetSearch(false);
+      }
+    };
+
+    restoreSearchFromUrl();
+    window.addEventListener('popstate', restoreSearchFromUrl);
+
+    return () => {
+      window.removeEventListener('popstate', restoreSearchFromUrl);
+      activeRequest.current?.abort();
+      requestIdentity.current += 1;
+    };
+  }, [resetSearch, searchDocs]);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    try {
-      await searchDocs(searchWords, searchLocale);
-      setSentSearchWords(searchWords);
-    } catch (e) {
-      console.error(e);
+
+    const nextSearch = createSearchUrl(
+      new URL(window.location.href),
+      searchWords
+    );
+
+    setSearchWords(nextSearch.query);
+
+    if (nextSearch.changed) {
+      window.history.pushState({}, '', nextSearch.url);
+    }
+
+    inputRef.current?.focus();
+
+    if (nextSearch.query) {
+      await searchDocs(nextSearch.query);
+    } else {
+      resetSearch();
     }
   };
+
+  const totalEstimatedHits = searchState.results?.totalDocs ?? 0;
+  const isLoading = searchState.status === 'loading';
+  const hasResults =
+    searchState.status === 'success' && totalEstimatedHits > 0;
+  const hasNoResults =
+    searchState.status === 'success' && totalEstimatedHits === 0;
+
+  let statusMessage = '';
+
+  if (isLoading) {
+    statusMessage = searchLoading;
+  } else if (hasResults) {
+    statusMessage = `${totalEstimatedHits} ${searchResultLabel}`;
+  } else if (hasNoResults) {
+    statusMessage = searchNoResults;
+  }
 
   return (
     <div>
@@ -121,41 +255,56 @@ export function SearchComponent({
           id="site-search"
           onSubmit={handleSubmit}
           role="search"
+          aria-busy={isLoading ? 'true' : undefined}
           className="flex flex-col flex-wrap w-full md:items-center md:gap-x-6 md:gap-y-2 md:flex-row"
         >
           <label htmlFor="search-input" className="text-lt-gray dark:text-dk-gray w-full">
             {searchLabel}
           </label>
           <input
+            ref={inputRef}
             id="search-input"
             type="text"
+            value={searchWords}
             className="w-full md:max-w-sm"
             onChange={(e) => setSearchWords(e.currentTarget.value)}
           />
-          <button type="submit" className="button item--transition max-md:my-4">
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="button item--transition max-md:my-4"
+          >
             {searchButton}
           </button>
         </form>
       </div>
 
-      <div className="sr-only" role="status">
-        {(totalEstimatedHits as number) > 0
-          ? `${totalEstimatedHits} ${searchResultLabel}`
-          : searchNoResults}
+      <div
+        className="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {statusMessage}
       </div>
 
       <div className="text-lt-gray dark:text-dk-gray pt-4 pb-2 px-4-px max-w-xl mx-auto md:py-6 md:px-8-px lg:max-w-4xl">
-        {(totalEstimatedHits as number) > 0 && (
+        <div role="alert">
+          {searchState.status === 'error' ? searchError : ''}
+        </div>
+
+        {hasResults && (
           <div className="border-t-4 gradient-border-light dark:gradient-border-dark pt-4">
             <h2>
-              {searchMainHeading} {sentSearchWords}, {totalEstimatedHits} {searchResultLabel}
+              {searchMainHeading} {searchState.submittedQuery},{' '}
+              {totalEstimatedHits} {searchResultLabel}
             </h2>
           </div>
         )}
 
-        {searchPageResult && (
+        {hasResults && searchState.results && (
           <ul>
-            {searchPageResult.docs.map((result: SearchResults, index: number) => {
+            {searchState.results.docs.map((result: SearchResults, index: number) => {
               const siteName = getSiteName(result.doc.relationTo, searchLocale);
               const contentType = getContentType(result.doc.relationTo, searchLocale);
               const siteUrl = getSiteUrl(result.doc.relationTo);
@@ -188,7 +337,7 @@ export function SearchComponent({
           </ul>
         )}
 
-        {(totalEstimatedHits as number) === 0 && <p>{searchNoResults}</p>}
+        {hasNoResults && <p>{searchNoResults}</p>}
       </div>
     </div>
   );

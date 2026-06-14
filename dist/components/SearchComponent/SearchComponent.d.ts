@@ -4,6 +4,8 @@ export interface SearchComponentProps {
     searchMainHeading: string;
     searchResultLabel: string;
     searchNoResults: string;
+    searchLoading: string;
+    searchError: string;
     searchLocale: string;
     searchSiteName: string;
     searchContentType: string;
@@ -25,4 +27,4 @@ export interface SearchComponentProps {
      */
     resultBaseUrls?: Record<string, string>;
 }
-export declare function SearchComponent({ searchLabel, searchButton, searchMainHeading, searchResultLabel, searchNoResults, searchLocale, searchSiteName, searchContentType, payloadUrl, defaultResultBaseUrl, resultBaseUrls, }: SearchComponentProps): import("react/jsx-runtime").JSX.Element;
+export declare function SearchComponent({ searchLabel, searchButton, searchMainHeading, searchResultLabel, searchNoResults, searchLoading, searchError, searchLocale, searchSiteName, searchContentType, payloadUrl, defaultResultBaseUrl, resultBaseUrls, }: SearchComponentProps): import("react/jsx-runtime").JSX.Element;
