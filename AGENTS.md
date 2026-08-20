@@ -2,8 +2,10 @@
 
 ## Project
 
-`a11ying-ui` is the shared design system for the A11ying brand sites. It is a
-React and Tailwind CSS package containing:
+`a11ying-ui` is the shared design system for the A11ying with Sanna family. It
+provides framework-neutral brand foundations for four public sites and React
+components and complete global styles for the two closest application
+consumers. The package contains:
 
 - accessible shared UI components;
 - brand colors, typography, spacing, and global element styles;
@@ -23,32 +25,59 @@ The sibling repositories normally live under the same `projects` directory:
 | Repository | Role |
 | --- | --- |
 | `../a11ying-ui` | This shared design-system package. |
-| `../a11ying-front` | The general accessibility site consuming this package. |
-| `../wcag-front` | The WCAG guide site consuming this package. |
+| `../a11ying-front` | Broad bilingual accessibility education and reference site; full React and style consumer. |
+| `../wcag-front` | Focused bilingual WCAG guide; full React and style consumer. |
+| `../a11y-testing-astro` | English hands-on accessibility testing lab; tokens-only Astro consumer. |
+| `../sanna` | Bilingual personal/professional site and English blog; tokens-only Astro consumer. |
 
-Both sites consume a tagged GitHub version of `a11ying-ui`; they are not
+All four sites consume a tagged GitHub version of `a11ying-ui`; they are not
 automatically linked to this sibling checkout. A completed shared change
 therefore includes package verification, a release/tag when appropriate,
-dependency updates in both consumers, and consumer-level testing.
+dependency updates in every affected consumer, and consumer-level testing.
+
+The public sites have distinct responsibilities. A11ying teaches broad
+accessibility knowledge, WCAG explains the standard and its criteria, Testing
+Lab teaches and exercises practical testing, and Sanna provides personal,
+professional, speaking, projects, and editorial-blog context. Shared branding
+does not make their routing, content models, or page composition interchangeable.
 
 Use these ownership boundaries:
 
-- Put reusable components, shared interaction behavior, design tokens,
-  typography, colors, and broadly applicable styles here.
+- Put stable brand colors, font-family tokens, dark-mode foundations, and
+  cross-site custom properties in the framework-neutral tokens export.
+- Put reusable React components, shared React interaction behavior, and broad
+  global styles here only when they form a stable contract for A11ying and WCAG.
 - Keep site routing, CMS requests, page composition, redirects, metadata, and
   content-specific logic in the consumer repositories.
+- Keep Testing Lab and Sanna Astro components local. Do not add React to either
+  site merely to reuse a small component.
 - Avoid adding a prop or abstraction for a single-site workaround unless it
   represents a stable reusable contract.
-- Treat both sites as supported consumers. A change that works in Storybook but
-  breaks Astro integration is not complete.
+- Treat all four sites as supported token consumers. A package change is not
+  complete if it breaks a relevant consumer integration.
+
+Use this decision order: keep content and site behavior local; share stable
+brand primitives as tokens; consider React component ownership only for a
+reusable need shared by A11ying and WCAG; keep merely similar or single-site
+components local.
+
+## Commit and Push Authority
+
+This is the only repository in the family where an agent may commit and push
+changes. That permission supports the tagged package release workflow and does
+not extend to any public-site repository. After releasing a package change, an
+agent may update and verify affected consumers, but those consumer changes must
+remain uncommitted for human review.
 
 ## Repository Map
 
 - `src/components/`: React components, colocated prop types, and Storybook
   stories.
 - `src/foundations/`: Storybook documentation for shared visual foundations.
-- `src/styles/global.css`: Tailwind 4 theme tokens, base styles, and shared
-  component classes.
+- `src/styles/global.css`: complete base styles and shared component classes for
+  the full React/style consumers; it imports the shared tokens.
+- `src/styles/tokens.css`: framework-neutral brand foundations used by all four
+  public sites.
 - `src/types/`: exported cross-project data contracts.
 - `src/index.ts`: public component and type API.
 - `.storybook/`: Storybook Vite configuration and global preview styling.
@@ -109,11 +138,12 @@ For a shared component or token change:
 2. Add or update Storybook coverage for relevant states.
 3. Run `npm run build` and `npm run test:storybook`.
 4. Release/tag the package as appropriate.
-5. Update the dependency and lockfile in both `a11ying-front` and `wcag-front`.
-6. Run focused tests in both sites; run each full quality gate for foundation,
-   layout, navigation, theme, or broadly visual changes.
+5. Update the dependency and lockfile in every affected consumer.
+6. Run focused tests in affected sites; run each full quality gate for
+   foundation, layout, navigation, theme, or broadly visual changes.
+7. Leave all public-site changes uncommitted for human review.
 
 This package publishes declarations from `dist/index.d.ts`. When changing
-public types, verify the generated declarations and both consumers. Missing or
+public React types, verify the generated declarations and both full consumers. Missing or
 incorrect package types must be fixed here rather than patched with consumer
 ambient module shims.
