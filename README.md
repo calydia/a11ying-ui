@@ -28,6 +28,17 @@ Import once in your site's layout:
 import 'a11ying-ui/styles';
 ```
 
+### Framework-neutral tokens
+
+Consumers that need the shared brand foundations without React components or global element styles can import the tokens-only stylesheet after Tailwind:
+
+```css
+@import "tailwindcss";
+@import "a11ying-ui/tokens";
+```
+
+The supported cross-site foundation includes the brand colors, font-family names, shared dark-mode variant, and stable brand custom properties. The export also retains existing spacing and dimension aliases for application compatibility, but those utilities are not part of the cross-site brand contract. It does not load font files or component styles.
+
 ### Components
 
 ```tsx

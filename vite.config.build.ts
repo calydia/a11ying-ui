@@ -30,6 +30,8 @@ export default defineConfig({
         copyFileSync('tailwind.config.cjs', 'dist/tailwind.config.cjs');
         copyFileSync('src/styles/global.css', 'dist/global.css');
         copyFileSync('src/styles/styles.d.ts', 'dist/styles.d.ts');
+        copyFileSync('src/styles/tokens.css', 'dist/tokens.css');
+        copyFileSync('src/styles/tokens.d.ts', 'dist/tokens.d.ts');
       },
     },
   ],
