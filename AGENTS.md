@@ -109,7 +109,7 @@ remain uncommitted for human review.
 
 ## Commands
 
-Run commands from this repository root:
+Run commands from this repository root with Node.js 24:
 
 ```bash
 npm install
