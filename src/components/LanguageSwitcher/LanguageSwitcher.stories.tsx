@@ -29,7 +29,7 @@ export const FinnishPage: Story = {
     finnishURL: 'tietoa',
     currentPage: 'tietoa',
     currentLang: 'fi',
-    ariaLabel: 'Kielivalinta',
+    ariaLabel: 'Kieli: valitse kieli',
     languageLabel: 'Kieli',
   },
 };
